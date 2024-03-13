@@ -51,6 +51,8 @@ const AboutRoute = require('./routes/aboutRoutes')
 
 const testimonal = require('./controller/aboutcontroller/testimonialController')
 
+const contact = require('./routes/contactRoutes')
+
 app.use('/api',userRoutes);
 app.use('/api',carousel);
 app.use('/api',motivationRoutes); 
@@ -58,6 +60,9 @@ app.use('/api',serviceRoutes);
 app.use('/api',AboutRoutes)
 app.use('/api',AboutRoute)
 app.use('/api',testimonal)
+app.use('/api',contact)
+
+
 // schemaName.index({ request: 'text' });  
 
 const port = config.PORT || 3000;
