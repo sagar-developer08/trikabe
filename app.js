@@ -49,12 +49,15 @@ const AboutRoutes = require('./routes/bannerRoutes')
 
 const AboutRoute = require('./routes/aboutRoutes')
 
+const testimonal = require('./controller/aboutcontroller/testimonialController')
+
 app.use('/api',userRoutes);
 app.use('/api',carousel);
 app.use('/api',motivationRoutes); 
 app.use('/api',serviceRoutes);  
 app.use('/api',AboutRoutes)
 app.use('/api',AboutRoute)
+app.use('/api',testimonal)
 // schemaName.index({ request: 'text' });  
 
 const port = config.PORT || 3000;

@@ -3,7 +3,7 @@ const router = express.Router();
 
 const aboutController = require('../controller/aboutcontroller/aboutController');
 
-router.post('/upload/about',aboutController.createAbout);
+router.post('/createabout',aboutController.createAbout);
 
 router.get('/about', aboutController.getAbout);
 

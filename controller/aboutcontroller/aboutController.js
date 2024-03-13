@@ -26,22 +26,29 @@ const upload = multer({
 });
 
 
-exports.createAbout = upload.single('file'), async (req, res) => {
-    const about = new About({
-        image: req.file.location,
-        heading: req.body.heading,
-        description: req.body.description
-    });
-
-    try {
+const createAbout =  (req, res) => {
+try {
+    upload.single('file')(req, res, async function (err) {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        const about = new About({
+            image: req.file.location,
+            heading: req.body.heading,
+            description: req.body.description
+        });
         const newAbout = await about.save();
         res.status(201).json(newAbout);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-    }
+    });
+ }catch (error) {
+    res.status(400).json({ message: error.message });
+ }
+    
+    
+       
 };
 
-exports.getAbout = async (req, res) => {
+const getAbout = async (req, res) => {
     try {
         const about = await About.find();
         res.json(about);
@@ -49,3 +56,5 @@ exports.getAbout = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 }
+
+module.exports = {  createAbout, getAbout }
