@@ -26,7 +26,7 @@ const upload = multer({
 });
 
 
-const createBlog =  (req, res) => {
+const createBlog = (req, res) => {
     try {
         upload.single('file')(req, res, async function (err) {
             if (err) {
@@ -48,21 +48,35 @@ const createBlog =  (req, res) => {
     }
 }
 
-const getBlog = async (req, res) => {  
+const getBlog = async (req, res) => {
     try {
-            const getblog = await blog.find();
-            if(getblog){
-                res.status(200).json(getblog)
+        const getblog = await blog.find();
+        if (getblog) {
+            res.status(200).json(getblog)
             return
-            }
-            if(!getblog){
-                res.status(404).json({message: 'No Blog Found'})
-            }
+        }
+        if (!getblog) {
+            res.status(404).json({ message: 'No Blog Found' })
+        }
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 }
 
+const getblogid = async (req, res) => {
+    try {
+        const getblog = await blog.findById(req.params.id);
+        if (getblog) {
+            res.status(200).json(getblog)
+            return
+        }
+        if (!getblog) {
+            res.status(404).json({ message: 'No Blog Found' })
+            return
+        }
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}
 
-
-module.exports = {  createBlog, getBlog }
+module.exports = { createBlog, getBlog, getblogid }
