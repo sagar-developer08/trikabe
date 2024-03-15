@@ -23,6 +23,10 @@ const blog = new mongoose.Schema({
             type: String,
             // required: true
         },
+        isActive: {
+            type: Boolean,
+            default: true
+        }
 })
 
 module.exports = mongoose.model('Blog', blog)

@@ -55,6 +55,8 @@ const contact = require('./routes/contactRoutes')
 
 const blogRoutes = require('./routes/blogRoutes');
 
+const yogaService = require('./routes/servicesRoutes')
+
 app.use('/api',userRoutes);
 app.use('/api',carousel);
 app.use('/api',motivationRoutes); 
@@ -64,6 +66,7 @@ app.use('/api',AboutRoute)
 app.use('/api',testimonal)
 app.use('/api',contact)
 app.use('/api',blogRoutes)
+app.use('/api',yogaService)
 
 
 

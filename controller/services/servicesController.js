@@ -1,7 +1,7 @@
 const AWS = require('aws-sdk');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
-const blog = require('../../models/blog/blog');
+const service = require('../../models/services/Services');
 const config = require('../../config/config')
 // Configure AWS SDK
 AWS.config.update({
@@ -25,8 +25,7 @@ const upload = multer({
     })
 });
 
-
-const createBlog =  (req, res) => {
+const CreateServices =  (req, res) => {
     try {
         upload.single('file')(req, res, async function (err) {
             if (err) {
@@ -35,10 +34,9 @@ const createBlog =  (req, res) => {
             const about = new blog({
                 image: req.file.location,
                 heading: req.body.heading,
-                description: req.body.description,
-                date: req.body.date,
-                tagline: req.body.tagline,
-                isActive: req.body.isActive
+                service_name: req.body.service_name,
+                content: req.body.content,
+                benfits: req.body.benfits,
             });
             const newAbout = await about.save();
             res.status(201).json(newAbout);
@@ -48,21 +46,21 @@ const createBlog =  (req, res) => {
     }
 }
 
-const getBlog = async (req, res) => {  
+const getServices = async (req, res) => {
     try {
-            const getblog = await blog.find();
-            if(getblog){
-                res.status(200).json(getblog)
+        const getServices = await service.find();
+        if(!getServices){
+            res.status(404).json({message: 'No Services Found'})
             return
-            }
-            if(!getblog){
-                res.status(404).json({message: 'No Blog Found'})
-            }
+        }
+        if(getServices)
+        {
+            res.status(200).json(getServices)
+            return
+        }
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        res.status(400).json({ message: error.message });
     }
 }
 
-
-
-module.exports = {  createBlog, getBlog }
+module.exports = { CreateServices, getServices }
