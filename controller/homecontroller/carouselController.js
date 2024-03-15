@@ -5,6 +5,8 @@ const multerS3 = require('multer-s3');
 const Document = require('../../models/home/carousel');
 const config = require('../../config/config')
 // Import necessary libraries
+const sharp = require('sharp');
+
 
 // Configure AWS SDK
 AWS.config.update({
@@ -40,6 +42,21 @@ const imageUpload = (req, res) => {
 
             if (!req.file) {
                 return res.status(400).send('No file uploaded');
+            }
+
+            // Check and convert image size
+            const image = sharp(req.file.buffer);
+            const metadata = await image.metadata();
+
+            if (metadata.width !== 1897 || metadata.height !== 940) {
+                await image.resize(1897, 940).toBuffer((err, buffer) => {
+                    if (err) {
+                        console.error(err);
+                        return res.status(500).send('Failed to resize image');
+                    }
+                    req.file.buffer = buffer; // replace the file's buffer with the resized image
+                });
+                return
             }
 
             const document = new Document({
