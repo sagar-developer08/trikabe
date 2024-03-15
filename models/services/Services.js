@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const blog = new mongoose.Schema({
+const service = new mongoose.Schema({
 
     service_name:{
         type: String,
@@ -24,4 +24,4 @@ const blog = new mongoose.Schema({
     },
     // asked_question[],  
 })
-module.exports = mongoose.model('Blog', blog)
+module.exports = mongoose.model('Service', service)
