@@ -1,7 +1,7 @@
 const AWS = require('aws-sdk');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
-const service = require('../../models/services/Services');
+const work = require('../../models/services/Services');
 const config = require('../../config/config')
 // Configure AWS SDK
 AWS.config.update({
@@ -31,7 +31,7 @@ const CreateServices =  (req, res) => {
             if (err) {
                 return res.status(500).json({ error: err.message });
             }
-            const Services = new service({
+            const works = new work({
                 image: req.file.location,
                 heading: req.body.heading,
                 service_name: req.body.service_name,
@@ -41,7 +41,7 @@ const CreateServices =  (req, res) => {
 
                 
             });
-            const newservice = await Services.save();
+            const newservice = await works.save();
             res.status(201).json(newservice);
         });
     } catch (error) {
@@ -51,7 +51,7 @@ const CreateServices =  (req, res) => {
 
 const getServices = async (req, res) => {
     try {
-        const getServices = await service.find();
+        const getServices = await work.find();
         if(!getServices){
             res.status(404).json({message: 'No Services Found'})
             return

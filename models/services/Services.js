@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const service = new mongoose.Schema({
+const work = new mongoose.Schema({
 
     service_name:{
         type: String,
@@ -28,4 +28,4 @@ const service = new mongoose.Schema({
     },
     // asked_question[],  
 })
-module.exports = mongoose.model('Service', service)
+module.exports = mongoose.model('work', work)
