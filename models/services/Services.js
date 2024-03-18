@@ -4,7 +4,7 @@ const service = new mongoose.Schema({
 
     service_name:{
         type: String,
-        required: true
+        // required: true
     },
     heading:{
         type: String,
@@ -12,15 +12,19 @@ const service = new mongoose.Schema({
     },
     content:{
         type: String,
-        required: true
+        // required: true
     },
-    benfits:{
+    benfits_heading:{
         type: String,
-        required: true
+        // required: true
+    },
+    benfits_content:{
+        type: String,
+        // required: true
     },
     image: {
         type: String,
-        required: true
+        // required: true
     },
     // asked_question[],  
 })

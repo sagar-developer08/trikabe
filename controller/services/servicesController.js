@@ -31,15 +31,18 @@ const CreateServices =  (req, res) => {
             if (err) {
                 return res.status(500).json({ error: err.message });
             }
-            const about = new blog({
+            const Services = new service({
                 image: req.file.location,
                 heading: req.body.heading,
                 service_name: req.body.service_name,
                 content: req.body.content,
-                benfits: req.body.benfits,
+                benfits_heading: req.body.benfits_heading,
+                benfits_content: req.body.benfits_content,
+
+                
             });
-            const newAbout = await about.save();
-            res.status(201).json(newAbout);
+            const newservice = await Services.save();
+            res.status(201).json(newservice);
         });
     } catch (error) {
         res.status(400).json({ message: error.message });
