@@ -44,7 +44,9 @@ const createMotivation = async (req, res) => {
                 Image: req.file.location,
                 Heading:req.body.Heading,
                 content:req.body.content,
-                bullet:req.body.bullet,
+                bullet_one:req.body.bullet_one,
+                bullet_three:req.body.bullet_three,
+                bullet_two:req.body.bullet_two,
                 isActive:req.body.isActive
             });
             console.log(document)

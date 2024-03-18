@@ -19,7 +19,13 @@ const motivationSchema = new mongoose.Schema({
             type: String,
             // required: true
         },
-        bullet:{
+        bullet_one:{
+            type: String,
+        },
+        bullet_two:{
+            type: String,
+        },
+        bullet_three:{
             type: String,
         },
         isActive:{
