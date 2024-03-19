@@ -3,6 +3,8 @@ const multer = require('multer');
 const multerS3 = require('multer-s3');
 const blog = require('../../models/blog/blog');
 const config = require('../../config/config')
+const path = require('path');
+
 // Configure AWS SDK
 AWS.config.update({
     accessKeyId: config.accessKeyId,
@@ -20,7 +22,9 @@ const upload = multer({
         bucket: 'easytender',
         acl: 'public-read',
         key: function (req, file, cb) {
-            cb(null, Date.now().toString()) // Use a unique key for each uploaded file
+            const extension = path.extname(file.originalname);
+            // cb(null, Date.now().toString()) // Use a unique key for each uploaded file
+            cb(null, `${Date.now().toString()}${extension}`); // Include the file extension // Prefix the key with the folder name
         }
     })
 });
