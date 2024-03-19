@@ -45,19 +45,6 @@ const imageUpload = (req, res) => {
             }
 
             // Check and convert image size
-            const image = sharp(req.file.buffer);
-            const metadata = await image.metadata();
-
-            if (metadata.width !== 1897 || metadata.height !== 940) {
-                await image.resize(1897, 940).toBuffer((err, buffer) => {
-                    if (err) {
-                        console.error(err);
-                        return res.status(500).send('Failed to resize image');
-                    }
-                    req.file.buffer = buffer; // replace the file's buffer with the resized image
-                });
-                return
-            }
 
             const document = new Document({
                     name,
