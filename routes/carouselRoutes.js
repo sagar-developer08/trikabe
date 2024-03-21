@@ -3,12 +3,13 @@ const carouselController = require('../controller/homecontroller/carouselControl
 const express = require('express');
 
 const router = express.Router();
+const { isAuthenticated, authorizeRoles } = require('../middleware/Auth');
 
 
-router.post('/addimage', carouselController.imageUpload);
+router.post('/addimage',isAuthenticated,authorizeRoles('admin'), carouselController.imageUpload);
 
-router.get('/getimage', carouselController.getImages);
+router.get('/getimage',isAuthenticated,authorizeRoles('admin'), carouselController.getImages);
 
-router.delete('/deleteimage/:id', carouselController.deleteImage);
+router.delete('/deleteimage/:id',isAuthenticated,authorizeRoles('admin'), carouselController.deleteImage);
 
 module.exports = router;

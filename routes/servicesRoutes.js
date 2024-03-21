@@ -4,7 +4,7 @@ const serviceController = require('../controller/services/servicesController');
 const { isAuthenticated, authorizeRoles } = require('../middleware/Auth');
 
 // Create
-router.post('/post/work',serviceController.CreateServices);
+router.post('/post/work',isAuthenticated,authorizeRoles('admin'),serviceController.CreateServices);
 
 
 router.get('/get/work', serviceController.getServices);

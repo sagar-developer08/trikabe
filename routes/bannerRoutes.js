@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const bannerController = require('../controller/aboutcontroller/bannerController');
+const { isAuthenticated, authorizeRoles } = require('../middleware/Auth');
 
-router.post('/uploadBanner', bannerController.uploadBanner);
+
+
+router.post('/uploadBanner',isAuthenticated,authorizeRoles('admin'), bannerController.uploadBanner);
 
 router.get('/banner',bannerController.getBanner);
 

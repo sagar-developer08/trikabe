@@ -12,6 +12,11 @@ router.post('/login', userController.loginUser);
 
 // router.put('/update', userController.);
 
-router.get('/me',isAuthenticated,authorizeRoles, userController.viewDetails);
+router.get('/me', userController.viewDetails);
+
+router.get('/all', userController.viewAllDetails);
+
+// router.get('/all', userController.viewAllDetails);
+
 
 module.exports = router;

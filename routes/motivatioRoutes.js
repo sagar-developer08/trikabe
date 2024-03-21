@@ -3,9 +3,10 @@ motivationController = require('../controller/homecontroller/motivationControlle
 const express = require('express');
 
 const router = express.Router();
+const { isAuthenticated, authorizeRoles } = require('../middleware/Auth');
 
 
-router.post('/create/motivation', motivationController.createMotivation);
+router.post('/create/motivation',isAuthenticated,authorizeRoles('admin'), motivationController.createMotivation);
 
 router.get('/get/motivations',motivationController.getMotivations);
 
