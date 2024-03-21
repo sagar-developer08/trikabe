@@ -12,9 +12,9 @@ router.post('/login', userController.loginUser);
 
 // router.put('/update', userController.);
 
-router.get('/me', userController.viewDetails);
+router.get('/me',isAuthenticated,authorizeRoles('admin'), userController.viewDetails);
 
-router.get('/all', userController.viewAllDetails);
+router.get('/all',isAuthenticated,authorizeRoles('admin'), userController.viewAllDetails);
 
 // router.get('/all', userController.viewAllDetails);
 
