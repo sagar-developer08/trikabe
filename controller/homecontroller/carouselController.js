@@ -5,7 +5,6 @@ const multerS3 = require('multer-s3');
 const Document = require('../../models/home/carousel');
 const config = require('../../config/config')
 // Import necessary libraries
-const sharp = require('sharp');
 
 
 // Configure AWS SDK
