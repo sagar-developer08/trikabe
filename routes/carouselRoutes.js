@@ -8,7 +8,7 @@ const { isAuthenticated, authorizeRoles } = require('../middleware/Auth');
 
 router.post('/addimage',isAuthenticated,authorizeRoles('admin'), carouselController.imageUpload);
 
-router.get('/getimage',isAuthenticated,authorizeRoles('admin'), carouselController.getImages);
+router.get('/getimage', carouselController.getImages);
 
 router.delete('/deleteimage/:id',isAuthenticated,authorizeRoles('admin'), carouselController.deleteImage);
 
