@@ -17,7 +17,7 @@ exports.isAuthenticated = async (req, res, next) => {
         }
         // verfiying the user using jwt token
 
-        token=token.slice(7);
+        
         console.log(token)
         jwt.verify(token, 'your_secret_key_here', (err, user) => {
             console.log(token,user,err)

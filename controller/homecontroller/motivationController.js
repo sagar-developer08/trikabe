@@ -18,7 +18,7 @@ const s3 = new AWS.S3();
 const upload = multer({
     storage: multerS3({
         s3: s3,
-        bucket: 'easytender',
+        bucket: 'trika-prod',
         acl: 'public-read',
         key: function (req, file, cb) {
             cb(null, Date.now().toString()) // Use a unique key for each uploaded file
