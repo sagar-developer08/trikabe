@@ -36,7 +36,7 @@ const registerUser = (req, res) => {
                         const token = jwt.sign({ email: user.email,role:user.role }, 'your_secret_key_here', { expiresIn: '1h' });
                         res.status(201).json({ message: 'User registered successfully', userData, token });
                     })
-                    .catch((error) => res.status(500).json({ message: 'Failed to register user', error:"first catch" }));
+                    .catch((error) => res.status(500).json({ message: 'Failed to register user', error:error }));
             })
             .catch((error) => res.status(500).json({ message: 'Failed to register user', error:"second catch" }));
     });
