@@ -14,7 +14,7 @@ router.post('/login', userController.loginUser);
 
 router.get('/me',isAuthenticated,authorizeRoles('admin'), userController.viewDetails);
 
-router.get('/all',isAuthenticated,authorizeRoles('admin'), userController.viewAllDetails);
+router.get('/all', userController.viewAllDetails);
 
 // router.get('/all', userController.viewAllDetails);
 
