@@ -107,4 +107,4 @@ const deleteService = async (req, res) => {
 
 
 
-module.exports = { CreateServices, getServices }
+module.exports = { CreateServices, getServices,deleteService ,updateService}

@@ -118,4 +118,4 @@ const updateBlog = async (req, res) => {
 
 
 
-module.exports = { createBlog, getBlog, getblogid }
+module.exports = { createBlog, getBlog, getblogid,updateBlog,deleteBlog }

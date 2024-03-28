@@ -11,4 +11,8 @@ router.post('/createblog',isAuthenticated,authorizeRoles('admin'),blogController
 router.get('/blog', blogController.getBlog);
 
 router.get('/blog/:id', blogController.getblogid);
+
+router.put('/blog/:id',isAuthenticated,authorizeRoles('admin'), blogController.updateBlog);
+
+router.delete('/blog/:id',isAuthenticated,authorizeRoles('admin'), blogController.deleteBlog);
 module.exports = router;

@@ -8,4 +8,7 @@ router.post('/createabout',isAuthenticated,authorizeRoles('admin'),aboutControll
 
 router.get('/about', aboutController.getAbout);
 
+router.put('/about/:id',isAuthenticated,authorizeRoles('admin'), aboutController.updateAbout);
+
+router.delete('/about/:id',isAuthenticated,authorizeRoles('admin'), aboutController.deleteAbout);
 module.exports = router;

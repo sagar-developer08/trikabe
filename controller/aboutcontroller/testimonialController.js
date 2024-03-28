@@ -61,4 +61,35 @@ router.get('/get/testimonal', async (req, res) => {
     }
 });
 
+// Delete a testimonial
+router.delete('/delete/testimonal/:id', async (req, res) => {
+    try {
+        const testimonial = await Testimonial.findByIdAndDelete(req.params.id);
+        if (!testimonial) {
+            return res.status(404).json({ message: 'Testimonial not found' });
+        }
+        res.json({ message: 'Testimonial deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+router.put('/update/testimonal/:id', upload.single('file'), async (req, res) => {
+    try {
+        const testimonial = await Testimonial.findById(req.params.id);
+        if (!testimonial) {
+            return res.status(404).json({ message: 'Testimonial not found' });
+        }
+        if (req.file) {
+            testimonial.image = req.file.location;
+        }
+        testimonial.name = req.body.name;
+        testimonial.message = req.body.message;
+        testimonial.rating = req.body.rating;
+        const updatedTestimonial = await testimonial.save();
+        res.json(updatedTestimonial);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
+
 module.exports = router;

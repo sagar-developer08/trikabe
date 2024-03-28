@@ -16,5 +16,5 @@ module.exports = {
     PASSWORD:process.env.PASSWORD
 }
 
-console.log(data)
+// console.log(data)
 

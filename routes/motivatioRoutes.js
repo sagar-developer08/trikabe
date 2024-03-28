@@ -10,6 +10,7 @@ router.post('/create/motivation',isAuthenticated,authorizeRoles('admin'), motiva
 
 router.get('/get/motivations',motivationController.getMotivations);
 
+router.put('/update/motivation/:id',isAuthenticated,authorizeRoles('admin'), motivationController.updateMotivation);
  
-
+router.delete('/delete/motivation/:id',isAuthenticated,authorizeRoles('admin'), motivationController.deleteMotivation);
 module.exports = router;

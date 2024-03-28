@@ -99,4 +99,4 @@ const updateAbout = async (req, res) => {
 
 
 
-module.exports = {  createAbout, getAbout }
+module.exports = {  createAbout, getAbout ,updateAbout,deleteAbout}
