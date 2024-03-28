@@ -6,7 +6,7 @@ const router = express.Router();
 const { isAuthenticated, authorizeRoles } = require('../middleware/Auth');
 
 
-router.post('/addcontact',isAuthenticated,authorizeRoles('admin'), contactController.createContact);
+router.post('/addcontact', contactController.createContact);
 
 router.get('/getcontact', contactController.getAllContacts);
 
