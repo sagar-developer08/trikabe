@@ -8,7 +8,7 @@ const { isAuthenticated, authorizeRoles } = require('../middleware/Auth');
 
 router.post('/addcontact', contactController.createContact);
 
-router.get('/getcontact', contactController.getAllContacts);
+router.get('/getcontact',isAuthenticated,authorizeRoles('admin'), contactController.getAllContacts);
 
 router.delete('/deletecontact',isAuthenticated,authorizeRoles('admin'),  contactController.deleteContactById);
 
