@@ -57,4 +57,46 @@ const getAbout = async (req, res) => {
     }
 }
 
+const deleteAbout = async (req, res) => {
+    try {
+        const about = await About.findByIdAndDelete(req.params.id);
+        if (!about) {
+            return res.status(404).json({ message: 'About not found' });
+        }
+        res.json({ message: 'About deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+}
+
+const updateAbout = async (req, res) => {
+    upload.single('file')(req, res, async function (err) {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+
+        try {
+            let about = await About.findById(req.params.id);
+            if (!about) {
+                return res.status(404).json({ message: 'About not found' });
+            }
+
+            if (req.file) {
+                about.image = req.file.location;
+            }
+
+            about.heading = req.body.heading;
+            about.description = req.body.description;
+
+            await about.save();
+
+            res.json({ message: 'About updated successfully', about });
+        } catch (error) {
+            res.status(500).json({ error: error.message });
+        }
+    });
+}
+
+
+
 module.exports = {  createAbout, getAbout }
