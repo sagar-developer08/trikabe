@@ -33,7 +33,8 @@ const sendEmail = async (contact) => {
 
         console.log('Email sent successfully');
     } catch (error) {
-        // console.log('Error sending email:', error);
+        console.log('Error sending email:', error);
+        res.status(500).json({ error: 'Failed to create contact' });
     }
 };
 
