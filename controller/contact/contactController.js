@@ -20,10 +20,10 @@ const sendEmail = async (contact) => {
       
         const info = await transporter.sendMail({
                     from: EMAIL, // sender address
-                    to: contact.email, // list of receivers
+                    to: EMAIL, // list of receivers
                     subject: "Hello ✔", // Subject line
                     text: "Hello world?", // plain text body
-                    html: '<p>Shubham HI</p>', // html body
+                    html: `${contact}`, // html body
         });
          
         
@@ -33,7 +33,8 @@ const sendEmail = async (contact) => {
 
         console.log('Email sent successfully');
     } catch (error) {
-        // console.log('Error sending email:', error);
+        console.log('Error sending email:', error);
+        res.status(500).json({ error: 'Failed to create contact' });
     }
 };
 
