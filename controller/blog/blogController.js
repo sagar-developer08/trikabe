@@ -86,13 +86,13 @@ const getblogid = async (req, res) => {
 
 const deleteBlog = async (req, res) => {
     try {
-        const blog = await blog.findById(req.params.id);
-        if (blog) {
-            await Blog.findByIdAndDelete(req.params.id);
+        const Blog = await blog.findById(req.params.id);
+        if (Blog) {
+            await blog.findByIdAndDelete(req.params.id);
             res.status(200).json({ message: 'Blog has been deleted' })
             return
         }
-        if (!blog) {
+        if (!Blog) {
             res.status(404).json({ message: 'Blog not found' })
         }
     } catch (error) {
