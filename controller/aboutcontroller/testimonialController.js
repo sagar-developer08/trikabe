@@ -5,6 +5,8 @@ const multerS3 = require('multer-s3');
 const config = require('../../config/config')
 const express = require('express');
 const router = express.Router();
+const { isAuthenticated, authorizeRoles } = require('../middleware/Auth');
+
 // Configure AWS SDK
 AWS.config.update({
     accessKeyId: config.accessKeyId,
