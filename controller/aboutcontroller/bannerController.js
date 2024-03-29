@@ -82,14 +82,17 @@ const updateBanner = async (req, res) => {
 const deleteBanner = async (req, res) => {
     try {
         const banner = await Banner.findById(req.params.id);
-        if (!banner) {
-            return res.status(404).json({ message: 'Banner not found' });
+        if (banner) {
+            await Banner.findByIdAndDelete(req.params.id);
+            res.status(200).json({ message: 'Blog has been deleted' })
+            return
         }
-
-        await banner.remove();
-        res.status(200).json({ message: 'Banner deleted successfully' });
+        if (!banner) {
+            res.status(404).json({ message: 'Blog not found' })
+        }
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        console.log(error)
+        res.status(500).json({ message: error.message })
     }
 }
 
