@@ -62,7 +62,7 @@ router.get('/get/testimonal', async (req, res) => {
 });
 
 // Delete a testimonial
-router.delete('/delete/testimonal/:id', async (req, res) => {
+router.delete('/delete/testimonal/:id',isAuthenticated,authorizeRoles('admin'), async (req, res) => {
     try {
         const testimonial = await Testimonial.findByIdAndDelete(req.params.id);
         if (!testimonial) {
