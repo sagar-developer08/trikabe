@@ -33,7 +33,7 @@ const registerUser = (req, res) => {
                             phone: newUser.phone
                         };
                         // Generate JWT token
-                        const token = jwt.sign({ email: req.email,role:req.role }, 'your_secret_key_here', { expiresIn: '1h' });
+                        const token = jwt.sign({ email: req.body.email,role:req.body.role }, 'your_secret_key_here', { expiresIn: '1h' });
                         res.status(201).json({ message: 'User registered successfully', userData, token });
                     })
                     .catch((err) => {console.log(err)

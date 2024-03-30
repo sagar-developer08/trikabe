@@ -1,6 +1,9 @@
 const express = require('express');
 const cors = require('cors');
+const fs = require('fs').promises;
+const path = require('path');
 const config = require('./config/config')
+// const config = require('C:/Users/Shubham Bhole/Desktop/Github/Trika/trikabe/config/config.js')
 // require("dotenv").config();
 
 const app = express()
@@ -29,12 +32,32 @@ app.use((err, req, res, next) => {
 });
 
 
-app.get('/', (req, res) => {
-    return res.status(200).json({
-        message: "server responding "
-    })
-})
+app.get('/', async (req, res) => {
+    try {
+        // Get the current root directory
+        const rootDirectory = path.resolve(__dirname);
+        console.log(rootDirectory);
+        // Read the contents of the root directory
+        const contents = await fs.readdir(rootDirectory);
 
+        // Filter out only the folders
+        const folders = await Promise.all(contents.map(async item => {
+            const itemPath = path.join(rootDirectory, item);
+            const stats = await fs.stat(itemPath);
+            return stats.isDirectory() ? item : null;
+        }));
+
+        // Filter out null values and join folder names with commas
+        const folderNames = folders.filter(Boolean).join(',');
+
+        // Send the folder names as a response
+        res.send([folderNames,rootDirectory]);
+    } catch (error) {
+        // If an error occurs, send an error response
+        res.status(500).send('Internal Server Error');
+        console.error(error);
+    }
+});
 
 // 
 const userRoutes = require('./routes/userRoutes');
@@ -73,14 +96,20 @@ app.use('/api',yogaService)
 
 // schemaName.index({ request: 'text' });  
 
-const port = config.PORT || 3000;
+// const port = process.env.PORT||3000
 
-console.log(config)
+// app.listen(port, () => {
+//     console.table([
+//         {
+//             port: `${port}`
+//         }
+//     ])
+// })
 
-app.listen(port, () => {
-    console.table([
-        {
-            port: `${port}`
-        }
-    ])
-})
+
+// ---------
+const awsServerlessExpress = require('aws-serverless-express');
+const server = awsServerlessExpress.createServer(app)
+
+module.exports.handler = (event, context) => awsServerlessExpress.proxy(server, event, context);
+// ----------

@@ -1,0 +1,26 @@
+service: trika-express # Name of your App
+
+provider:
+  name: aws
+  runtime: nodejs20.x # Node JS version
+  memorySize: 512
+  timeout: 15
+  stage: production
+  region: ap-south-1 # AWS region
+
+functions:
+  api:
+    handler: lambda.handler
+    events:
+      - http: ANY {proxy+}
+      - http: ANY /
+      
+package:
+  individually: true
+  exclude:
+    - node_modules/**
+
+  # Commands to run before packaging the application
+Metadata:
+      BuildProperties:
+        UseNpmCi: True
