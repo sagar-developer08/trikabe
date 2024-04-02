@@ -1,6 +1,9 @@
 // const dotenv = require("dotenv")
 // const path = require("path")
 
+
+
+
 // process.env.NODE_ENV = "test"
 
 // const data = dotenv.config({ path: path.join(__dirname, `../environment/.${process.env.NODE_ENV}.env`) })
