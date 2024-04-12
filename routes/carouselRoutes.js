@@ -1,12 +1,14 @@
 const carouselController = require('../controller/homecontroller/carouselController');
 
 const express = require('express');
+const multer = require('multer');
 
 const router = express.Router();
 const { isAuthenticated, authorizeRoles } = require('../middleware/Auth');
 
+const upload = multer({ storage: multer.memoryStorage() }).single('file');
 
-router.post('/addimage',isAuthenticated,authorizeRoles('admin'), carouselController.imageUpload);
+router.post('/addimage',upload, carouselController.imageUpload);
 
 router.get('/getimage', carouselController.getImages);
 
