@@ -16,41 +16,80 @@ AWS.config.update({
 const s3 = new AWS.S3();
 
 // Configure multer to handle file uploads
-const upload = multer({
-    storage: multerS3({
-        s3: s3,
-        bucket: 'trika-prod',
-        acl: 'public-read',
-        key: function (req, file, cb) {
-            const extension = path.extname(file.originalname);
-            // cb(null, Date.now().toString()) // Use a unique key for each uploaded file
-            cb(null, `${Date.now().toString()}${extension}`); // Include the file extension // Prefix the key with the folder name
-        }
-    })
-});
+const getSignedUrl = (fileName) => {
+    const params = {
+        Bucket: 'trika-prod',
+        Key: fileName,
+        ACL: 'public-read',
+    };
+    return s3.getSignedUrl('putObject', params);
+};
 
 
-const createBlog = (req, res) => {
+// const createBlog = (req, res) => {
+//     try {
+//         upload.single('file')(req, res, async function (err) {
+//             if (err) {
+//                 return res.status(500).json({ error: err.message });
+//             }
+//             const about = new blog({
+//                 image: req.file.location,
+//                 heading: req.body.heading,
+//                 description: req.body.description,
+//                 date: req.body.date,
+//                 tagline: req.body.tagline,
+//                 isActive: req.body.isActive
+//             });
+//             const newAbout = await about.save();
+//             res.status(201).json(newAbout);
+//         });
+//     } catch (error) {
+//         res.status(400).json({ message: error.message });
+//     }
+// }
+
+const createBlog = async (req, res) => {
     try {
-        upload.single('file')(req, res, async function (err) {
-            if (err) {
-                return res.status(500).json({ error: err.message });
-            }
-            const about = new blog({
-                image: req.file.location,
-                heading: req.body.heading,
-                description: req.body.description,
-                date: req.body.date,
-                tagline: req.body.tagline,
-                isActive: req.body.isActive
-            });
-            const newAbout = await about.save();
-            res.status(201).json(newAbout);
+        // Check if a file was uploaded
+        if (!req.file) {
+            return res.status(400).json({ error: 'No file uploaded' });
+        }
+
+        // Generate pre-signed URL dynamically
+        const preSignedUrl = getSignedUrl(req.file.originalname);
+
+        // Upload file to S3 using the pre-signed URL
+        const uploadParams = {
+            Bucket: 'your-bucket-name',
+            Key: req.file.originalname,
+            ACL: 'public-read',
+            ContentType: req.file.mimetype,
+            Body: req.file.buffer 
+        };
+        const uploadResult = await s3.upload(uploadParams).promise();
+
+        // Create a new blog post with the uploaded image URL
+        const newBlog = new blog({
+            image: uploadResult.Location,
+            heading: req.body.heading,
+            description: req.body.description,
+            date: req.body.date,
+            tagline: req.body.tagline,
+            isActive: req.body.isActive
         });
+
+        // Save the new blog post to the database
+        const savedBlog = await newBlog.save();
+
+        // Send success response to the client
+        res.status(201).json(savedBlog);
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        // Handle any errors
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 }
+
 
 const getBlog = async (req, res) => {
     try {
