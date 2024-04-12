@@ -7,7 +7,6 @@ exports.isAuthenticated = async (req, res, next) => {
 
         let token = req.get('Authorization');
         // console.log()
-        
         if (!token) {
             res.status(400).json({
                 success: false,

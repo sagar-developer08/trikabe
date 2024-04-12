@@ -3,37 +3,12 @@ const Banner = require('../../models/About/banner');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
 const config = require('../../config/config')
-// Configure AWS SDK
-AWS.config.update({
-    accessKeyId: config.accessKeyId,
-    secretAccessKey: config.secretAccessKey,
-    region: 'ap-south-1'
-});
 
-// Create an instance of the S3 service
-const s3 = new AWS.S3();
 
-// Configure multer to handle file uploads
-const upload = multer({
-    storage: multerS3({
-        s3: s3,
-        bucket: 'trika-prod',
-        acl: 'public-read',
-        key: function (req, file, cb) {
-            cb(null, Date.now().toString()) // Use a unique key for each uploaded file
-        }
-    })
-});
-
-const uploadBanner = (req, res) => {
-    upload.single('file')(req, res, async function (err) {
-        if (err) {
-            return res.status(500).json({ error: err.message });
-        }
-        console.log(req.body)
-        const banner = new Banner({
-            imageUrl: req.file.location
-        });
+const uploadBanner = async (req, res) => {
+   
+        
+        const banner = new Banner(req.body);
 
         try {
             await banner.save();
@@ -41,7 +16,7 @@ const uploadBanner = (req, res) => {
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
-    });
+   
 };
 
 

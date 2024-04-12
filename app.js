@@ -4,8 +4,9 @@ const fs = require('fs').promises;
 const path = require('path');
 const config = require('./config/config')
 // const config = require('C:/Users/Shubham Bhole/Desktop/Github/Trika/trikabe/config/config.js')
-// require("dotenv").config();
+require("dotenv").config();
 
+console.log(process.env.mongodburl)
 const app = express()
 
 app.use(cors())
@@ -14,7 +15,7 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
-
+console.log()
 // 
 // database connection
 require('./database/db')
@@ -96,15 +97,15 @@ app.use('/api',yogaService)
 
 // schemaName.index({ request: 'text' });  
 
-// const port = process.env.PORT||3000
+const port = process.env.PORT||8000
 
-// app.listen(port, () => {
-//     console.table([
-//         {
-//             port: `${port}`
-//         }
-//     ])
-// })
+app.listen(port, () => {
+    console.table([
+        {
+            port: `${port}`
+        }
+    ])
+})
 
 
 // ---------

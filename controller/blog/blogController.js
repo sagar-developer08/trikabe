@@ -5,48 +5,15 @@ const blog = require('../../models/blog/blog');
 const config = require('../../config/config')
 const path = require('path');
 
-// Configure AWS SDK
-AWS.config.update({
-    accessKeyId: config.accessKeyId,
-    secretAccessKey: config.secretAccessKey,
-    region: 'ap-south-1'
-});
-
-// Create an instance of the S3 service
-const s3 = new AWS.S3();
-
-// Configure multer to handle file uploads
-const upload = multer({
-    storage: multerS3({
-        s3: s3,
-        bucket: 'trika-prod',
-        acl: 'public-read',
-        key: function (req, file, cb) {
-            const extension = path.extname(file.originalname);
-            // cb(null, Date.now().toString()) // Use a unique key for each uploaded file
-            cb(null, `${Date.now().toString()}${extension}`); // Include the file extension // Prefix the key with the folder name
-        }
-    })
-});
 
 
-const createBlog = (req, res) => {
+const createBlog = async (req, res) => {
     try {
-        upload.single('file')(req, res, async function (err) {
-            if (err) {
-                return res.status(500).json({ error: err.message });
-            }
-            const about = new blog({
-                image: req.file.location,
-                heading: req.body.heading,
-                description: req.body.description,
-                date: req.body.date,
-                tagline: req.body.tagline,
-                isActive: req.body.isActive
-            });
+     
+            const about = new blog(req.body)
             const newAbout = await about.save();
             res.status(201).json(newAbout);
-        });
+   
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
@@ -103,13 +70,13 @@ const deleteBlog = async (req, res) => {
 
 const updateBlog = async (req, res) => {
     try {
-        const blog = await blog.findById(req.params.id);
-        if (blog) {
+        const Blog = await blog.findById(req.params.id);
+        if (Blog) {
             const updatedBlog = await blog.findByIdAndUpdate(req.params.id, req.body, { new: true })
             res.status(200).json(updatedBlog)
             return
         }
-        if (!blog) {
+        if (!Blog) {
             res.status(404).json({ message: 'Blog not found' })
         }
     } catch (error) {

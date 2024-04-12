@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
-const config = require("../config/config")
-// console.log(config)
-mongoose.connect(config.mongodburl).then(() => {
+
+mongoose.set('strictQuery', false)
+mongoose.connect(process.env.mongodburl).then(() => {
     
     console.log("database connection is established")
 }).catch((err) => {

@@ -5,43 +5,16 @@ const multerS3 = require('multer-s3');
 // Create
 const config = require('../../config/config')
 // Configure AWS SDK
-AWS.config.update({
-    accessKeyId: config.accessKeyId,
-    secretAccessKey: config.secretAccessKey,
-    region: 'ap-south-1'
-});
-
-// Create an instance of the S3 service
-const s3 = new AWS.S3();
 
 // Configure multer to handle file uploads
-const upload = multer({
-    storage: multerS3({
-        s3: s3,
-        bucket: 'trika-prod',
-        acl: 'public-read',
-        key: function (req, file, cb) {
-            cb(null, Date.now().toString()) // Use a unique key for each uploaded file
-        }
-    })
-});
+
 
 const createMotivation = async (req, res) => {
     try {
-        upload.single('file')(req, res, async function (err) {
-            if (err) {
-                console.error(err);
-                return res.status(500).send('Failed to upload document');
-            }
-            // const { Attribbute,Image,Heading,content,bullet,isActive } = req.body;
-
-            if (!req.file) {
-                return res.status(400).send('No file uploaded');
-            }
-           
+       
             const document = new Motivation({
                 Attribbute:req.body.Attribbute,
-                Image: req.file.location,
+                Image: req.body.Image,
                 Heading:req.body.Heading,
                 content:req.body.content,
                 bullet_one:req.body.bullet_one,
@@ -52,7 +25,7 @@ const createMotivation = async (req, res) => {
             console.log(document)
             const savedDocument = await document.save();
             res.status(200).json({ message: 'File uploaded and document saved successfully', document: savedDocument });
-        });
+        
     } catch (err) {
         console.log(err);
     }

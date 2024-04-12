@@ -20,7 +20,11 @@ const testimonialSchema = new mongoose.Schema({
     },
     createdAt: {
         type: Date,
-        default: Date.now
+        default: Date.now()
+    },
+    isActive:{
+        type: Boolean,
+        default: true
     }
 });
 
